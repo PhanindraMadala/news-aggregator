@@ -8,7 +8,7 @@ body, html {
 .App {
   min-height: 100vh;
   width: 100%;
-  background-image: url("/images/bg.jpg"); /* must be in public/images/ */
+  background-image: url('/bg.jpg'); /* must be in public/images/ */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
