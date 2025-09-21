@@ -1,76 +1,19 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
 .App {
   min-height: 100vh;
   width: 100%;
-  background: url("/images/bg.jpg") no-repeat center center fixed;
+  background-image: url('/images/bg.jpg'); /* place bg.jpg in public/images/ */
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: white;
   padding: 20px;
   text-align: center;
   overflow-y: auto;
-}
-
-h1 {
-  margin-bottom: 20px;
-}
-
-select {
-  margin: 10px 0;
-  padding: 5px;
-}
-
-button {
-  margin-left: 10px;
-  padding: 5px 10px;
-}
-
-.add-form {
-  margin: 10px 0;
-}
-
-.add-form input,
-.add-form textarea {
-  width: 70%;
-  padding: 5px;
-  margin-bottom: 5px;
-}
-
-.news-container {
-  margin-top: 20px;
-}
-
-.news-card {
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  text-align: left;
-  color: white;
-  position: relative;
-}
-
-.news-card h2 {
-  margin: 0 0 5px 0;
-}
-
-.news-card p {
-  margin: 5px 0;
-}
-
-.news-card a {
-  color: #ffd700;
-  text-decoration: none;
-}
-
-.label {
-  font-size: 12px;
-  font-style: italic;
-  margin-left: 10px;
-}
-
-.label.live {
-  color: #00ff00;
-}
-
-.label.added {
-  color: #00ffff;
 }
