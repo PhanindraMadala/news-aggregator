@@ -1,64 +1,75 @@
 import React, { useState, useEffect } from "react";
-import "./NewsAggregator.css"; // <-- import your CSS here at the top
+import "./NewsAggregator.css";
 
 function NewsAggregator() {
-  const [selectedTopic, setSelectedTopic] = useState("");
   const [articles, setArticles] = useState([]);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [titleInput, setTitleInput] = useState("");
-  const [descInput, setDescInput] = useState("");
-  const [step, setStep] = useState("title"); // "title" or "description"
+  const [selectedTopic, setSelectedTopic] = useState("");
+  const [showAdd, setShowAdd] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDesc, setNewDesc] = useState("");
+  const [step, setStep] = useState(1);
 
-  useEffect(() => {
-    if (!selectedTopic) return;
-
-    const fetchNews = async () => {
-      try {
-        const res = await fetch(`/news?topic=${selectedTopic.toLowerCase()}`);
-        const data = await res.json();
-        setArticles(data.articles || []);
-      } catch (err) {
-        console.error("Error fetching news:", err);
-      }
-    };
-    fetchNews();
-  }, [selectedTopic]);
-
-  const handleAddClick = () => {
-    setShowAddForm(true);
-    setStep("title");
-    setTitleInput("");
-    setDescInput("");
-  };
-
-  const handleTitleSubmit = (e) => {
-    if (e.key === "Enter") {
-      if (!titleInput.trim()) return alert("Enter a title");
-      setStep("description");
+  // Fetch news from backend
+  const fetchNews = async (topic) => {
+    if (!topic) return;
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/news?topic=${topic}`);
+      const data = await res.json();
+      setArticles(data.articles || []);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const handleDescriptionSubmit = async () => {
-    if (!descInput.trim()) return alert("Enter a description");
+  // Topic change handler
+  const handleTopicChange = (e) => {
+    const topic = e.target.value;
+    setSelectedTopic(topic);
+    setShowAdd(false);
+    setStep(1);
+    setNewTitle("");
+    setNewDesc("");
+    fetchNews(topic);
+  };
+
+  // Add news step handling
+  const handleAddClick = () => {
+    if (!selectedTopic) return alert("Select a topic first");
+    setShowAdd(true);
+    setStep(1);
+    setNewTitle("");
+    setNewDesc("");
+  };
+
+  const handleTitleSubmit = (e) => {
+    e.preventDefault();
+    if (!newTitle.trim()) return alert("Enter a title");
+    setStep(2);
+  };
+
+  const handleDescSubmit = async (e) => {
+    e.preventDefault();
+    if (!newDesc.trim()) return alert("Enter description");
+
     const newsItem = {
-      title: titleInput,
-      description: descInput,
+      title: newTitle,
+      description: newDesc,
       topic: selectedTopic,
-      url: "#",
     };
+
     try {
-      const res = await fetch("/news", {
+      await fetch("http://127.0.0.1:5000/news", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newsItem),
       });
-      const data = await res.json();
-      setArticles([data, ...articles]);
-      setShowAddForm(false);
-      setTitleInput("");
-      setDescInput("");
+      fetchNews(selectedTopic);
+      setShowAdd(false);
+      setStep(1);
+      setNewTitle("");
+      setNewDesc("");
     } catch (err) {
-      console.error("Error adding news:", err);
+      console.error(err);
     }
   };
 
@@ -66,72 +77,61 @@ function NewsAggregator() {
     <div className="container">
       <h1>Latest News</h1>
 
-      <div className="topic-section">
-        <label>Select Topic:</label>
-        <select
-          value={selectedTopic}
-          onChange={(e) => setSelectedTopic(e.target.value)}
-        >
-          <option value="">--Select Topic--</option>
-          <option value="General">General (India)</option>
-          <option value="Business">Business (India)</option>
-          <option value="Entertainment">Entertainment (India)</option>
-          <option value="Health">Health (India)</option>
-          <option value="Science">Science (India)</option>
-          <option value="Sports">Sports (India)</option>
-          <option value="Technology">Technology (India)</option>
-          <option value="International">International</option>
-        </select>
-      </div>
+      <label htmlFor="topic">Select Topic:</label>
+      <select id="topic" value={selectedTopic} onChange={handleTopicChange}>
+        <option value="">--Select Topic--</option>
+        <option value="General">General</option>
+        <option value="Business">Business</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Health">Health</option>
+        <option value="Science">Science</option>
+        <option value="Sports">Sports</option>
+        <option value="Technology">Technology</option>
+        <option value="International">International</option>
+      </select>
 
-      {selectedTopic && (
-        <button onClick={handleAddClick}>Add News</button>
+      <button onClick={handleAddClick} disabled={!selectedTopic}>
+        Add News
+      </button>
+
+      {showAdd && step === 1 && (
+        <form onSubmit={handleTitleSubmit} className="add-form">
+          <input
+            type="text"
+            placeholder="Enter Title"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+          />
+          <button type="submit">Next</button>
+        </form>
       )}
 
-      {showAddForm && (
-        <div className="add-news-form">
-          {step === "title" && (
-            <input
-              type="text"
-              placeholder="Enter Title"
-              value={titleInput}
-              onChange={(e) => setTitleInput(e.target.value)}
-              onKeyDown={handleTitleSubmit}
-              autoFocus
-            />
-          )}
-          {step === "description" && (
-            <>
-              <textarea
-                rows="3"
-                placeholder="Enter Description"
-                value={descInput}
-                onChange={(e) => setDescInput(e.target.value)}
-                autoFocus
-              />
-              <button onClick={handleDescriptionSubmit}>Submit News</button>
-            </>
-          )}
-        </div>
+      {showAdd && step === 2 && (
+        <form onSubmit={handleDescSubmit} className="add-form">
+          <textarea
+            placeholder="Enter Description"
+            value={newDesc}
+            onChange={(e) => setNewDesc(e.target.value)}
+            rows="3"
+          />
+          <button type="submit">Submit News</button>
+        </form>
       )}
 
       <div className="news-container">
-        {articles.length === 0 && selectedTopic && (
-          <p>No news found.</p>
-        )}
-        {articles.map((article, idx) => (
-          <div className="news-item" key={idx}>
-            <div className="news-title">
-              {article.title}{" "}
-              <span
-                className={`label ${
-                  article.url && article.url !== "#" ? "live" : "added"
-                }`}
-              >
-                {article.url && article.url !== "#" ? "Live" : "Added"}
-              </span>
-            </div>
-            <div className="news-desc">{article.description}</div>
+        {articles.length === 0 && <p>No news found.</p>}
+        {articles.map((article, i) => (
+          <div className="news-card" key={i}>
+            <h2>{article.title}</h2>
+            <span className={`label ${article.url && article.url !== "#" ? "live" : "added"}`}>
+              {article.url && article.url !== "#" ? "Live" : "Added"}
+            </span>
+            <p>{article.description || article.content}</p>
+            {article.url && (
+              <a href={article.url} target="_blank" rel="noopener noreferrer">
+                Read More
+              </a>
+            )}
           </div>
         ))}
       </div>

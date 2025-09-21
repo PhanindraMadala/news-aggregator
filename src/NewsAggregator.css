@@ -1,40 +1,80 @@
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-.container { max-width: 700px; margin: 0 auto; padding: 20px; text-align: center; }
-.topic-section { margin-bottom: 15px; }
-.news-item { border-bottom: 1px solid #ccc; padding: 10px 0; text-align: left; }
-.news-title { font-weight: bold; display: inline-block; margin-right: 10px; }
-.label { font-size: 12px; padding: 2px 5px; border-radius: 3px; color: #fff; }
-.added { background-color: #28a745; }
-.live { background-color: #007bff; }
-button, select { margin: 5px 0; padding: 5px; }
-.add-news-form { margin-top: 10px; }
-input, textarea { width: 100%; padding: 5px; margin: 5px 0; display: block; }
 .container {
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
+  color: white;
 
-  /* Background image from public folder */
   background-image: url("/images/bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
-  color: white; /* text readable on image */
   min-height: 100vh;
   position: relative;
 }
-.container::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 0;
+
+h1 {
+  margin-bottom: 20px;
 }
 
-.container > * {
+select {
+  margin: 10px 0;
+  padding: 5px;
+}
+
+button {
+  margin-left: 10px;
+  padding: 5px 10px;
+}
+
+.add-form {
+  margin: 10px 0;
+}
+
+.add-form input,
+.add-form textarea {
+  width: 70%;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.news-container {
+  margin-top: 20px;
+}
+
+.news-card {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: left;
+  color: white;
   position: relative;
-  z-index: 1;
 }
 
+.news-card h2 {
+  margin: 0 0 5px 0;
+}
+
+.news-card p {
+  margin: 5px 0;
+}
+
+.news-card a {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+.label {
+  font-size: 12px;
+  font-style: italic;
+  margin-left: 10px;
+}
+
+.label.live {
+  color: #00ff00;
+}
+
+.label.added {
+  color: #00ffff;
+}
