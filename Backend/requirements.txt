@@ -1,4 +1,4 @@
-Flask
-requests
+flask
+flask-cors
+feedparser
 gunicorn
-python-dotenv
