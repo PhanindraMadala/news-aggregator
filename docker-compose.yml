@@ -1,18 +1,26 @@
+version: '3.9'
+
 services:
   backend:
     build:
-      context: ./backend   # points to backend folder
+      context: .
       dockerfile: Dockerfile.backend
+    container_name: news-aggregator-backend
     ports:
       - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+    volumes:
+      - ./backend:/app
 
   frontend:
-    image: node:20-alpine
-    working_dir: /app
-    volumes:
-      - ./:/app
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: news-aggregator-frontend
     ports:
       - "3000:3000"
-    command: sh -c "npm install && npm start"
-    depends_on:
-      - backend
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./frontend:/app
