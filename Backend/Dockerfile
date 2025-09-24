@@ -1,16 +1,15 @@
-# backend/Dockerfile
-FROM python:3.11-slim
+# Use JDK 17 for Spring Boot
+FROM eclipse-temurin:17-jdk
 
+# Set working directory
 WORKDIR /app
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the Spring Boot JAR (after mvn package)
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
 
-COPY . .
+# Expose port 8080 (default Spring Boot port)
+EXPOSE 8080
 
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
-
-EXPOSE 5000
-
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app", "--workers", "3", "--threads", "2"]  
+# Run the JAR
+ENTRYPOINT ["java","-jar","/app/app.jar"]
