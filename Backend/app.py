@@ -1,10 +1,13 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import requests
 import os
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
-NEWS_API_KEY = os.getenv("NEWS_API_KEY", "your_api_key_here")
+# Get API key from environment variable
+NEWS_API_KEY = os.getenv("NEWS_API_KEY", "your_api_key_here")  # fallback if env not set
 
 @app.route("/api/news/<topic>", methods=["GET"])
 def get_news(topic):
@@ -15,5 +18,5 @@ def get_news(topic):
     return jsonify({"error": "Failed to fetch news"}), 500
 
 if __name__ == "__main__":
-    # Run on 8080 so frontend matches
+    # Run on port 8080 to match frontend fetch
     app.run(host="0.0.0.0", port=8080)
