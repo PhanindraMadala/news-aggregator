@@ -5,8 +5,11 @@ services:
     build: ./Backend
     ports:
       - "8080:8080"
-    env_file:
-      - ./Backend/.env
+    environment:
+      - NEWS_API_KEY=SG4QGAaCQe7PGUrI81Vs9FYf7VQWYUFz3hYk1tzdV4jRT7Px
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/news_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
     depends_on:
       - db
 
@@ -22,7 +25,5 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: news_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
