@@ -1,3 +1,5 @@
+version: '3.9'
+
 services:
   backend:
     build: ./backend
@@ -11,7 +13,7 @@ services:
     build: ./frontend
     container_name: news-aggregator-frontend
     ports:
-      - "3000:3000"
+      - "80:80"   # Nginx serves on port 80, not 3000
     depends_on:
       - backend
 
