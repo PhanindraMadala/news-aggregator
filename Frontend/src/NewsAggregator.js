@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './newsaggregator.css';
+import './NewsAggregator.css';
 
 function App() {
   const [topic, setTopic] = useState('');
