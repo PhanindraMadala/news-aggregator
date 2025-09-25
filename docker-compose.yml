@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - NEWS_API_KEY=SG4QGAaCQe7PGUrI81Vs9FYf7VQWYUFz3hYk1tzdV4jRT7Px
+      - NEWS_API_KEY=Sd93cb7207b9f4ffea89bec6a6a9e6f66
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/news_db
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
