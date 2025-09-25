@@ -1,10 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import NewsAggregator from './NewsAggregator';
+import './index.css';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <NewsAggregator />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(<NewsAggregator />);
