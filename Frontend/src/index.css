@@ -1,4 +1,69 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+/* src/index.css or App.css */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.news-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/images/background.jpg'); /* public/images folder */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  text-align: center;
+}
+
+.topic-selector {
+  background: rgba(0, 0, 0, 0.6); /* semi-transparent dark overlay */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.topic-selector h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.topic-selector select {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+}
+
+.topic-selector button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: #ff6600;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.topic-selector button:hover {
+  background-color: #e55b00;
+}
+
+.news-list {
+  margin-top: 30px;
+  max-width: 800px;
+  text-align: left;
+}
+
+.news-item {
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
 }
