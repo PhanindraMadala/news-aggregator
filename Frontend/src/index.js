@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './NewsAggregator';
+import ReactDOM from 'react-dom';
+import NewsAggregator from './NewsAggregator';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <NewsAggregator />
+  </React.StrictMode>,
+  document.getElementById('root')
 );
