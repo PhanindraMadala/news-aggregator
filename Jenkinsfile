@@ -1,15 +1,25 @@
 pipeline {
     agent any
+
     stages {
-        stage('Clone') {
+        stage('Clone Repository') {
             steps {
-                git 'https://github.com/your-username/news-aggregator.git'
+                git 'https://github.com/PhanindraMadala/news-aggregator.git'
             }
         }
-        stage('Build & Run with Docker Compose') {
+
+        stage('Build and Run Containers') {
             steps {
-                sh 'docker-compose down || true'
-                sh 'docker-compose up --build -d'
+                bat '''
+                  docker-compose down || exit 0
+                  docker-compose up --build -d
+                '''
+            }
+        }
+
+        stage('Check Running Services') {
+            steps {
+                bat 'docker ps -a'
             }
         }
     }
