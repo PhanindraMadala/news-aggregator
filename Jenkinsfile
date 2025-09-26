@@ -11,8 +11,9 @@ pipeline {
         stage('Build and Run Containers') {
             steps {
                 bat '''
-                  docker-compose down || exit 0
+                  docker-compose down
                   docker-compose up --build -d
+                  timeout /t 10
                 '''
             }
         }
@@ -20,6 +21,18 @@ pipeline {
         stage('Check Running Services') {
             steps {
                 bat 'docker ps -a'
+            }
+        }
+
+        stage('Health Check') {
+            steps {
+                bat '''
+                  echo Checking Backend...
+                  powershell -Command "try { Invoke-WebRequest http://localhost:8085/ -UseBasicParsing; Write-Host 'Backend is up' } catch { Write-Host 'Backend failed'; exit 1 }"
+
+                  echo Checking Frontend...
+                  powershell -Command "try { Invoke-WebRequest http://localhost:3005/ -UseBasicParsing; Write-Host 'Frontend is up' } catch { Write-Host 'Frontend failed'; exit 1 }"
+                '''
             }
         }
     }
