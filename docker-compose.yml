@@ -4,21 +4,21 @@ services:
   backend:
     build: ./backend
     ports:
-      - "8085:8080"
+      - "8085:8080"   # host port 8085 → container 8080
     environment:
       - NEWS_API_KEY=${NEWS_API_KEY}
 
   frontend:
     build: ./frontend
     ports:
-      - "3005:80"
+      - "3005:80"     # host port 3005 → container port 80
     depends_on:
       - backend
 
   jenkins:
     image: jenkins/jenkins:lts
     ports:
-      - "8086:8080"
+      - "8086:8080"   # host port 8086 → container 8080 inside Jenkins
     volumes:
       - jenkins_home:/var/jenkins_home
 
