@@ -11,7 +11,7 @@ function NewsAggregator() {
   const fetchNews = async (selectedTopic) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://backend:8080/api/news/${selectedTopic}`);
+      const response = await fetch(`http://localhost:8080/api/news/${selectedTopic}`);
       const data = await response.json();
       setNews(data.articles || []);
     } catch (error) {
