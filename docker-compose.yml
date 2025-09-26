@@ -2,21 +2,21 @@ services:
   backend:
     build: ./backend
     ports:
-      - "8085:8080"
-    environment:
-      - NEWS_API_KEY=${NEWS_API_KEY}
+      - "8085:8080"           # Expose backend on 8085
+    env_file:
+      - .env                  # Load API key
 
   frontend:
     build: ./frontend
     ports:
-      - "3005:80"
+      - "3005:80"             # Expose frontend on 3005
     depends_on:
       - backend
 
   jenkins:
     image: jenkins/jenkins:lts
     ports:
-      - "8086:8080"
+      - "8086:8080"           # Expose Jenkins on 8086
     volumes:
       - jenkins_home:/var/jenkins_home
 

@@ -8,10 +8,6 @@ CORS(app)
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY", "your_api_key_here")
 
-@app.route("/", methods=["GET"])
-def home():
-    return "Backend is running!", 200
-
 @app.route("/api/news/<topic>", methods=["GET"])
 def get_news(topic):
     url = f"https://newsapi.org/v2/top-headlines?country=us&category={topic}&apiKey={NEWS_API_KEY}"
